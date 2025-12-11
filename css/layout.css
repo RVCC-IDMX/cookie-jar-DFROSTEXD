@@ -1,24 +1,35 @@
 /*I wanted to make the cookie card layout more visually appealing and easier to read on larger screens, so I figured that having the image on the left and the text on the right would help achieve that goal. It also is nice to look at when it's viewed from a desktop*/
 
-.cookie-card {
+/* Container wrapper provides the container context for container queries.
+   This allows .cookie-card to be styled based on its container's width. */
+.card-container {
     container-type: inline-size;
+    container-name: card;
 }
 
 /* Desktop layout: image to the left, text to the right to make it more readable and visually appealing for desktop users*/
-@container (min-width: 600px) {
+@container card (min-width: 600px) {
     .cookie-card {
         display: grid;
-        grid-template-columns: minmax(16rem, 1fr) minmax(20rem, 2fr);
+        grid-template-columns: minmax(16rem, 1fr) minmax(0, 2fr);
+        grid-template-areas:
+            "header header"
+            "media  body";
         gap: clamp(1rem, 0.5rem + 2cqi, 3rem);
         align-items: start;
     }
-    
+
     .cookie-card__header {
-        grid-column: 1;
+        grid-area: header;
     }
-    
+
+    .cookie-card__media {
+        grid-area: media;
+    }
+
     .cookie-card__body {
-        grid-column: 2;
+        grid-area: body;
+        min-width: 0; /* Prevent content from overflowing grid area */
     }
 }
 
@@ -30,3 +41,10 @@
 }
 
 /* I was thinking at first that I would have the image at the top and have buttons to the left and the ingredients to the right, but I felt that the layout would look awkward with having a large image at the top of the screen, so I changed it so that the image would decrease in size when the screen size increases.*/
+
+/* Image handling for consistent display */
+.cookie-card__image {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    width: 100%;
+}
